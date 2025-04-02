@@ -1,0 +1,19 @@
+<%- include('partials/navbar')  %>
+
+<h1>Edit comment: </h1>
+
+<p>Comment was made by: <b><%= blog.username%></b></p>
+<img src="/<%= blog.image %>"
+    onerror="this.onerror=null; this.src='<%= blog.image %>';"  
+    alt="image">
+<form method="post" action="/myBlog/<%= blog.id  %>?__method=PATCH" >
+<input type="textbox" name = "blogPost"  value="<%= blog.blogPost  %>">
+<button>Post</button>
+</form>
+
+    <div class="commentSection">
+        <% for (let comment of blog.comments){ if (comment.comment && comment.username){%>
+            <p><%= comment.comment %>- <b><%= comment.username %></b></p>
+           
+            <% }} %>
+        </div>

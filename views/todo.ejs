@@ -1,0 +1,37 @@
+<%- include('partials/navbar')%>
+    <h1>Rai's tOdO list</h1>
+
+    <form action="/todoList" method="post">
+        <input type="text" placeholder="Add to list" id="newTodo" value="" name="newTodo">
+        <button>add</button>
+    </form>
+
+    <ul>
+            <%  for (let list of listArray){ if(list.newTodo){%>
+                <li> 
+                    <label>
+                        <span class="todo-list"> <%= list.newTodo%> </span>
+                        <input type="checkbox" id="<%= list.id  %>" class="todo-checkbox">
+                    </label>
+               </li>
+            
+            <% }} %>
+
+    </ul>
+  
+</body>
+<script>
+    document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function(){
+            let textElement = this.previousElementSibling;
+            console.log(textElement)
+            if(this.checked){
+                textElement.style.textDecoration = 'line-through'
+            }else{
+                textElement.style.textDecoration = 'none'
+
+            }
+        })
+    })
+</script>
+</html>
