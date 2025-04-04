@@ -1,37 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toDo</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/appMyblog.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
 <%- include('partials/navbar')%>
+<div id="todoContMain">
     <h1>Rai's tOdO list</h1>
 
     <form action="/todoList" method="post">
         <input type="text" placeholder="Add to list" id="newTodo" value="" name="newTodo">
         <button>add</button>
     </form>
+</div>
+    <div>
+        <% for (let list of listArray){ if(list.newTodo){%>
+            <article class="todoCont">
 
-    <ul>
-            <%  for (let list of listArray){ if(list.newTodo){%>
-                <li> 
-                    <label>
-                        <span class="todo-list"> <%= list.newTodo%> </span>
-                        <input type="checkbox" id="<%= list.id  %>" class="todo-checkbox">
-                    </label>
-               </li>
-            
+                <p id="todo-<%= list.id%>">
+                    <%= list.newTodo%>
+                </p>
+                <div id="btnCont">
+                    <button id="<%= list.id%>" class="button"><i class="bi bi-check2-circle"></i></button>
+                    <form action="/todoList/<%= list.id%>?__method=DELETE" method="post"><button ><i class="bi bi-trash"></i></button></form>
+                   
+                </div>
+            </article>
+
             <% }} %>
 
-    </ul>
-  
-</body>
-<script>
-    document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', function(){
-            let textElement = this.previousElementSibling;
-            console.log(textElement)
-            if(this.checked){
-                textElement.style.textDecoration = 'line-through'
-            }else{
-                textElement.style.textDecoration = 'none'
+    </div>
 
+    </body>
+    <script>
+        
+        // document.querySelectorAll('.button').forEach(check => {
+        //     const id = check.getAttribute('id')
+        //     const idList = document.querySelector(`#todo-${id}`)
+           
+        //     let striked = localStorage.getItem(`strike-${id}`)
+          
+            
+        //     check.addEventListener('click', function(){
+        //         idList.style.textDecoration = 'line-through'
+        //         localStorage.setItem(`strike-${idList}`, striked)
+        //     }) 
+        // })
+        document.addEventListener("DOMContentLoaded", function () {
+    const completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || {};
+
+    document.querySelectorAll(".button").forEach((check) => {
+        const id = check.getAttribute("id");
+        const idList = document.querySelector(`#todo-${id}`);
+
+        // Apply strikethrough if it's saved in local storage
+        if (completedTasks[id]) {
+            idList.style.textDecoration = "line-through";
+        }
+
+        check.addEventListener("click", function () {
+            // Toggle strikethrough
+            if (idList.style.textDecoration === "line-through") {
+                idList.style.textDecoration = "none";
+                delete completedTasks[id]; // Remove from local storage
+            } else {
+                idList.style.textDecoration = "line-through";
+                completedTasks[id] = true; // Save to local storage
             }
-        })
-    })
-</script>
-</html>
+
+            // Save updated state
+            localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+        });
+    });
+});
+
+    </script>
+
+    </html>

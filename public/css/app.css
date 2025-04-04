@@ -6,3 +6,15 @@ img{
     height: 300px;
     width: 300px;
 }
+
+.todoCont{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#todoContMain{
+    width: 50%;
+    padding: 20px;
+    text-align: center;
+    margin: auto;
+}

@@ -14,27 +14,9 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    <a class="nav-link" href="/todoList">tOdO app</a>
-                    <a class="nav-link" href="/myBlog">my Blog</a>
-                    <a class="nav-link" href="/myBlog">tax Calculator</a>
-                    <a class="nav-link" href="/myBlog"></a>
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <%- include('partials/navbar')%>
 
-</body>
+
 
 </html>
 
@@ -101,9 +83,11 @@
                                     <%= comment.username %>
                                 </b></p>
                             <div class="comments-actions">
+                            
                                 <button class='commentLike' commentBlogUser-id="<%= comment.commentUserId  %>"><i
                                         class="bi bi-hand-thumbs-up"></i></button>
                                 <p id="comment-like-count-<%= comment.commentUserId  %>" class="likes"></p>
+                     
                                 <form method="post"
                                     action="/myBlog/<%= blog.id  %>/comments/<%= comment.commentUserId %>?__method=DELETE">
                                     <button>delete comment</button>
@@ -147,14 +131,14 @@
         const id = like.getAttribute('commentBlogUser-id')
         const container = document.querySelector(`#comment-like-count-${id}`)
 
-        let likeNum = localStorage.getItem(`commentLikes- ${id}`) || 0;
+        let likeNum = localStorage.getItem(`commentLikes-${id}`) || 0;
         container.innerHTML = `likes-${likeNum}`
 
         like.addEventListener('click', function () {
             likeNum++;
             container.innerHTML = `<p> likes- ${likeNum} </p>`
 
-            localStorage.setItem(`commentLikes- ${id}`, likeNum)
+            localStorage.setItem(`commentLikes-${id}`, likeNum)
 
         })
     })

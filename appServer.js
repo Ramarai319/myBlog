@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 app.get('/todoList', (req,res)=> {
 
     res.render('todo', {listArray})
-    console.log(listArray)
+    
 })
 app.post('/todoList', (req, res) => {
     const { newTodo} = req.body
@@ -39,6 +39,21 @@ app.post('/todoList', (req, res) => {
     }
     res.redirect("/todoList")
 
+})
+
+app.delete('/todoList/:id', (req,res) => {
+
+    const {id} = req.params
+    console.log(id)
+    const index = listArray.findIndex(find => find.id === id)
+    if(index === -1){
+        res.render('404err')
+    }
+
+    listArray.splice(index, 1)
+    res.redirect('/todoList')
+
+    
 })
 
 //blog---------------------
